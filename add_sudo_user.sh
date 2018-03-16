@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+# shell-scripts/add_sudo_user.sh
+
+# add_sudo_user.sh
+# 	Create a new user account
+# 	Add account to sudo group
+# 	Add an SSH public key to authorized_keys for passwordless SSH acess 
+
+
+set -euo pipefail
+# -e exit if any command returns non-zero status code
+# -u prevent using undefined variables
+# -o pipefail force pipelines to fail on first non-zero status code
+
+
+FATAL="\\033[1;31mFATAL\\033[0m"
+WARNING="\\033[1;33mWARNING\\033[0m"
+PASS="\\033[1;32mPASS\\033[0m"
+# INFO="\\033[1;36mINFO\\033[0m"
+
+
+add_user () {
+
+	# Check if user already exsists
+	if id -u "${1}" > /dev/null 2>&1 ; then 
+		echo -e "[${FATAL}] User ${1} already exsits"
+		exit 1
+	fi
+
+	# Add USERNAME as a user
+	if sudo adduser --quiet --gecos " " "${1}" ; then
+		echo -e "[${PASS}] Sucessfully added user '${1}'"
+	else
+		echo -e "[${FATAL}] Failed to add user '${1}'"
+		exit 1
+	fi
+
+
+	# Add USERNAME to the sudo group
+	# allows them ROOT via sudo command
+	if sudo adduser --quiet "${1}" "sudo" ; then 
+		echo -e "[${PASS}] Sucessfully added user '${1}' to group 'sudo'"
+	else
+		echo -e "[${FATAL}] Failed to add user '${1}' to group 'group'"
+		exit 1
+	fi
+}
+
+
+add_ssh_public_key () {
+
+	# Create /home/${USERNAME}/.ssh
+	if sudo -u "${USERNAME}" mkdir -p "${USER_HOME_DIR}"/.ssh ; then
+		echo -e "[${PASS}] Sucessfully created ${USER_HOME_DIR}/.ssh"
+	else
+		echo -e "[${FATAL}] Failed to create ${USER_HOME_DIR}/.ssh"
+		exit 1
+	fi
+
+
+	# Append SSH_PUBLIC_KEY to /home/${USERNAME}/.ssh/authorized_keys
+	if sudo -u "${USERNAME}" bash -c  "echo ${1} >> ${USER_HOME_DIR}/.ssh/authorized_keys" ; then
+		echo -e "[${PASS}] Sucessfully added ${1} to ${USER_HOME_DIR}/.ssh/authorized_keys"
+	else
+		echo -e "[${FATAL}] Failed to add ${1} to ${USER_HOME_DIR}/.ssh/authorized_keys"
+		exit 1
+	fi
+}
+
+main () {
+
+	USERNAME=${1:-""}
+	SSH_PUBLIC_KEY=${2:-""}
+	USER_HOME_DIR="/home/${USERNAME}"
+
+	if [[ $# -eq 0 ]] ; then
+		# If no args then print help
+    	echo "Usage: ./add_sudo_user {Username} {SSH Public Key}"
+    	exit 1
+	fi
+
+	add_user "${USERNAME}"
+
+	if ! [ -z "${SSH_PUBLIC_KEY}" ]; then
+		add_ssh_public_key "${SSH_PUBLIC_KEY}"
+	else
+		echo -e "[${WARNING}] No SSH Public Key specified"
+	fi
+}
+
+main "$@"
