@@ -33,9 +33,7 @@ lint_shell_files () {
 
 	for f in $(find . -type f -not -iwholename '*.git*' \
 				-not -iwholename '*venv*' \
-				-not -iwholename '*.yml' \
-				-not -iwholename '*.md' \
-				-not -iwholename '*.txt' | sort -u); do
+				| sort -u); do
 		# Find all regular files in source directory
 
 		if file "${f}" | grep --quiet "shell" ; then
