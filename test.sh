@@ -43,7 +43,22 @@ lint_shell_files () {
 				# Run shellcheck on the file
 				echo -e "[${PASS}] Sucessfully linted ${f}"
 			else
-				echo "shellcheck failed for ${f}"
+				echo -e "[${FAIL}] Failed to lint ${f}"
+				ERRORS+=("${f}")
+				# If shellcheck fails add failing file name to array
+			fi
+		
+		elif file "${f}" | grep --quiet "bash" ; then
+			# Find shell files
+			# Running file on a script with the hashbang "#!/usr/bin/env ..." returns
+			# "a /usr/bin/env bash script, ASCII text executable" rather than
+			# "Bourne-Again shell script, ASCII text executable"
+			
+			if shellcheck "${f}" ; then
+				# Run shellcheck on the file
+				echo -e "[${PASS}] Sucessfully linted ${f}"
+			else
+				echo -e "[${FAIL}] Failed to lint ${f}"
 				ERRORS+=("${f}")
 				# If shellcheck fails add failing file name to array
 			fi
