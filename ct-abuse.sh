@@ -15,6 +15,8 @@ set -euo pipefail
 TARGET="\\033[1;36m[Target]\\033[0m"
 SUBDOMIANS="\\033[1;33m[Subdomains]\\033[0m"
 TOTAL_SUBDOMIANS="\\033[1;32m[Total Subdomains]\\033[0m"
+FATAL="\\033[1;31mFATAL\\033[0m"
+INFO="\\033[1;36mINFO\\033[0m"
 
 
 usage () {
@@ -22,6 +24,15 @@ usage () {
 	echo -e "Usage: ./ct-abuse.sh {target_domain}"
 }
 
+
+check_curl () {
+
+	if ! [ -x "$(command -v curl)" ]; then 
+		echo -e "[${FATAL}] curl not installed"
+		echo -e "[${INFO}] Linux: apt install curl"
+		exit 1
+	fi
+}
 
 get_subdomains () {
 
@@ -54,6 +65,8 @@ main () {
     	usage
     	exit 1
 	fi
+
+	check_curl
 
 	get_subdomains "${target_domain}"
 }
