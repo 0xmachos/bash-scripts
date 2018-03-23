@@ -10,10 +10,12 @@ set -euo pipefail
 # -u prevent using undefined variables
 # -o pipefail force pipelines to fail on first non-zero status code
 
+
 FATAL="\\033[1;31mFATAL\\033[0m"
 WARNING="\\033[1;33mWARNING\\033[0m"
 PASS="\\033[1;32mPASS\\033[0m"
 INFO="\\033[1;36mINFO\\033[0m"
+
 
 run_locale-gen () {
 
@@ -29,6 +31,7 @@ run_locale-gen () {
 
 }
 
+
 run_dpkg_reconfigure_locales () {
 
 	echo -e "[${INFO}] Running 'sudo dpkg-reconfigure locales'"
@@ -42,7 +45,6 @@ run_dpkg_reconfigure_locales () {
 	fi
 
 }
-
 
 
 main () {
