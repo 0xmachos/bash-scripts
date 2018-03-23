@@ -50,7 +50,7 @@ lint_shell_files () {
 		
 		elif file "${f}" | grep --quiet "bash" ; then
 			# Find shell files
-			# Running file on a script with the hashbang "#!/usr/bin/env ..." returns
+			# Running file on a script with the shebang "#!/usr/bin/env ..." returns
 			# "a /usr/bin/env bash script, ASCII text executable" rather than
 			# "Bourne-Again shell script, ASCII text executable"
 			
