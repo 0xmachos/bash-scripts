@@ -39,10 +39,10 @@ get_subdomains () {
 	local subdomains=()
 
 	# shellcheck disable=SC2207
-	subdomains=($(curl --silent "https://crt.sh/?q=%25.${1}&output=json" \
-				| grep -Eo '"name_value":(\d*?,|.*?[^\\]",)' \
-				| awk -F '"' '{print $4}' \
-				| sort -u))
+	mapfile -t subdomains < <(curl --silent "https://crt.sh/?q=%25.${1}&output=json" \
+							| grep -Eo '"name_value":(\d*?,|.*?[^\\]",)' \
+							| awk -F '"' '{print $4}' \
+							| sort -u)
 	# grep regex from: https://stackoverflow.com/a/6852427
 
 	echo -e "${TARGET} ${1}"
