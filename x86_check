@@ -110,12 +110,13 @@ function main {
   if [ ${#BADAPPS[@]} -eq 0 ]; then
     echo "[✅] No 32-bit applications found"
   else
-
+    echo "[⚠️ ] Found ${#BADAPPS[@]} 32-bit Application"
+    echo "[🍺] 32-bit Applications:"
+    
     for b in "${BADAPPS[@]}"; do
-      echo "[⚠️ ] Found ${#BADAPPS[@]} 32-bit Application"
-      echo "[🍺] 32-bit Applications:"
       echo "  ${b}"
     done
+
   fi
 }
 
