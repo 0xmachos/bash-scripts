@@ -15,3 +15,7 @@ Assorted Bash scripts
 ##### `shebang.sh`
 - Check if bash scripts have a shebang on line one (`#!`)
 - Usgae: `./shebang.sh *` or `./shebang.sh {file 1} {file ...}`
+
+##### `x86_check`
+- Check `/Applications` for 32-bit Apps
+- Usage: `./x86_check`
