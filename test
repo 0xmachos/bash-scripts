@@ -1,11 +1,9 @@
 #!/bin/bash
-# BeEF/test.sh
+# bash-scripts/test
 
-# test.sh
+# test
 # 	Find shell scripts then run shellcheck 
-#	Find python files then run pylint
-# 	Adapted from jessfraz/dotfiles/bin/test.sh
-# 	https://github.com/jessfraz/dotfiles/blob/master/test.sh
+
 
 set -euo pipefail
 # -e exit if any command returns non-zero status code

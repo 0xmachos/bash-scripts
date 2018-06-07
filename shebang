@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# shell-scripts/shebang.sh
+# bash-scripts/shebang
 
-# shebang.sh
+# shebang
 #	Checks if bash sctips contain a shebang on line one
 #	Check if file exists and is a bash scrip
 #	Checks for "#!" via grep  

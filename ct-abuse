@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# shell-scripts/ct-abuse.sh
+# bash-scripts/ct-abuse
 
-# ct-abuse.sh
+# ct-abuse
 # 	Enumerate HTTPS enabled subdomains via Certificate Transparency 
 
 

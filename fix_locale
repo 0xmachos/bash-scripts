@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# shell-scripts/fix_locale.sh
+# bash-scripts/fix_locale
 
-# fix_locale.sh
+# fix_locale
 # 	Fixes errors like "-bash: warning: setlocale: LC_ALL: cannot change locale (en_GB.utf8)"
 
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-# shell-scripts/add_sudo_user.sh
+# shell-scripts/add_sudo_user
 
-# add_sudo_user.sh
+# add_sudo_user
 # 	Create a new user account
 # 	Add account to sudo group
 # 	Add an SSH public key to authorized_keys for passwordless SSH acess 
