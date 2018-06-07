@@ -4,15 +4,15 @@
 
 Assorted Bash scripts 
 
-##### `add_sudo_user.sh`
+##### `add_sudo_user`
 - Add a user to `sudo` group with an SSH jey
 - Usage: `./add_sudo_user {Username} {SSH Public Key}`
 
-##### `ct-abuse.sh`
+##### `ct-abuse`
 - For the given domain query [Certificate Transparency](https://www.certificate-transparency.org/what-is-ct) to get a list of subdomains which have SSL/TLS certificates issued for them 
 - Usage: `./ct-abuse.sh {target_domain}`
 
-##### `shebang.sh`
+##### `shebang`
 - Check if bash scripts have a shebang on line one (`#!`)
 - Usgae: `./shebang.sh *` or `./shebang.sh {file 1} {file ...}`
 
