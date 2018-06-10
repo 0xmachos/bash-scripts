@@ -2,7 +2,7 @@
 # bash-scripts/x86_check
 
 # x86_check
-#  Check if you have any 32-bit apps in /Applications
+#  Check whole system for 32-bit apps
 
 set -euo pipefail
 # -e exit if any command returns non-zero status code
@@ -18,100 +18,45 @@ IFS=$'\n\t'
 
 function usage {
 
-  echo -e "\\nCheck '/Applications' for 32-bit Apps"
+  echo -e "\\nCheck whole system for 32-bit applications"
   echo "Usage:"
   echo "  ./x86_check"
   exit 0
 }
 
 
-function check_instruction_set {
-
-  local app_path=${1:-?}
-  local app_name=${2:-?}
-
-  if file "${app_path}" | grep --quiet '64-bit'; then
-    :
-  elif file "${app_path}"  | grep --quiet 'i386'; then
-    BADAPPS+=("${app_name}")
-
-  elif [ "${app_path}" == "/Applications/Utilities/Contents/MacOS/Utilities" ]; then
-    :
-  elif [ "${app_path}" == "/Applications/TeX/Contents/MacOS/TeX" ]; then
-    :
-  elif echo "${app_path}" | grep --quiet 'Install macOS'; then
-    :
-  else
-    echo "[❌] Unable to parse contents of '${app_name}'"
-  fi
-}
-
-
 function get_applications {
 
-  local app_name
-  local app_path
-  local utility_name
-  local utility_path
-  local tex_name
-  local tex_path
+  mapfile -t BADAPPS< <(system_profiler SPApplicationsDataType \
+                        | grep -E '^    .*:$|64-Bit \(Intel\):|Location' \
+                        | grep -A1 ': No' \
+                        | grep 'Location' \
+                        | sed -e 's/.*Location: //' )
 
-  for i in /Applications/*; do
-
-    app_name="$(echo "${i}" | awk -F '/' '{print $3}' | awk -F '.' '{print $1}')"
-    app_path="${i}/Contents/MacOS/${app_name}"
-    APPS+=("${app_path}")
-
-    if [ "${i}" == "/Applications/Utilities" ]; then
-      
-      for u in /Applications/Utilities/*; do
-
-        utility_name="$(echo "${u}" | awk -F '/' '{print $4}' | awk -F '.' '{print $1}')"
-        utility_path="${u}/Contents/MacOS/${utility_name}"
-        APPS+=("${utility_path}")
-      done
-    
-    elif [ "${i}" == "/Applications/TeX" ]; then
-
-      for t in /Applications/TeX/*.app; do
-
-        tex_name="$(echo "${t}" | awk -F '/' '{print $4}' | awk -F '.' '{print $1}')"
-        tex_path="${t}/Contents/MacOS/${tex_name}"
-        APPS+=("${tex_path}")
-      done
-    fi
-  done
+  # Massive thanks to @MacLemon for this oneliner
 }
 
 
 function main {
 
   local cmd=${1:-""}
+  BADAPPS=()
+  tput sgr0; 
+  # reset colors
+  RED=$(tput setaf 1)
+  RESET=$(tput sgr0)
 
   if [[ "${cmd}" =~ ^(-h|-H|-help|--help|help)$ ]]; then
     usage
     exit 1
   fi
 
-  local app_name
-
-  APPS=()
-  BADAPPS=()
-
   get_applications
-
-  for app in "${APPS[@]}"; do
-
-    app_name="$(echo "${app}" | awk -F '/' '{print $3}' | awk -F '.' '{print $1}')"
-    check_instruction_set "${app}" "${app_name}"
-
-  done
 
   if [ ${#BADAPPS[@]} -eq 0 ]; then
     echo "[✅] No 32-bit applications found"
   else
-    echo "[⚠️ ] Found ${#BADAPPS[@]} 32-bit Application"
-    echo "[🍺] 32-bit Applications:"
+    echo "[⚠️ ] Found ${RED}${#BADAPPS[@]}${RESET} 32-bit Applications:"
     
     for b in "${BADAPPS[@]}"; do
       echo "  ${b}"
