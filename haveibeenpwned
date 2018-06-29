@@ -56,6 +56,7 @@ function get_pwned_info {
   local num_breaches
   local count=0
   local breach_title
+  local breach_date
   
   json="$(curl -s https://haveibeenpwned.com/api/v2/breachedaccount/"${email}")"
 
@@ -70,8 +71,9 @@ function get_pwned_info {
   # shellcheck disable=SC2086
   while [  $count -lt $num_breaches ]; do
     breach_title="$(echo "${json}" | python -c "import json,sys; obj=json.load(sys.stdin); print  obj[${count}]['Title'];")"
+    breach_date="$(echo "${json}" | python -c "import json,sys; obj=json.load(sys.stdin); print  obj[${count}]['BreachDate'];" | awk -F '-' '{print $1}')"
     (( count=count+1 ))
-    echo "  ${BOLD}${breach_title}${RESET}"
+    echo "  ${BOLD}${breach_title} (${breach_date})${RESET}"
   done 
 }
 
