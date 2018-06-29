@@ -33,15 +33,16 @@ function usage {
 
 function check_pwned {
 
- local is_pwned
- is_pwned="$(curl -s -o /dev/null -w "%{http_code}" https://haveibeenpwned.com/api/v2/breachedaccount/"${email}")"
+  local is_pwned
+
+  is_pwned="$(curl -s -o /dev/null -w "%{http_code}" https://haveibeenpwned.com/api/v2/breachedaccount/"${email}")"
 
   if [[ "${is_pwned}" == "200" ]]; then
     return 0
-  
+
   elif [[ "${is_pwned}" == "404" ]]; then
     return 1
-  
+
   else
     echo "UNKNOWN ERROR"
     return 1
