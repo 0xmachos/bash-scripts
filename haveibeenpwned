@@ -25,7 +25,7 @@ function usage {
 
   echo -e "\\nCheck if your email has been involved in a breach indexed by haveibeenpwned.com\\n"
   echo "Usage:"
-  echo -e "./haveibeenpwned example@example.com\n"
+  echo -e "./haveibeenpwned example@example.com\\n"
 
   exit 1
 }
