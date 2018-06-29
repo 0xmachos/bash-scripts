@@ -19,3 +19,7 @@ Assorted Bash scripts
 ##### `x86_check`
 - Check whole system for 32-bit Apps
 - Usage: `./x86_check`
+
+##### `haveibeenpwned`
+- Check if your email has been involved in a breach indexed by [haveibeenpwned.com](https://haveibeenpwned.com/API/v2)
+- Usage: `./haveibeenpwned example@example.com`
