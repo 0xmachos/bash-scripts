@@ -1,0 +1,88 @@
+#!/usr/bin/env bash
+# bash-scripts/haveibeenpwnd
+
+# haveibeenpwnd
+# 	Check if your email has been involved in a breach indexed by haveibeenpwned.com
+
+set -euo pipefail
+# -e exit if any command returns non-zero status code
+# -u prevent using undefined variables
+# -o pipefail force pipelines to fail on first non-zero status code
+
+### Define Colours ###
+tput sgr0; 
+# reset colors
+
+readonly RESET=$(tput sgr0);
+readonly BOLD=$(tput bold);
+
+readonly RED=$(tput setaf 1);
+### END Colours ###
+
+
+function usage {
+
+  echo -e "\\nCheck if your email has been involved in a breach indexed by haveibeenpwned.com\\n"
+  echo "Usage:"
+  echo -e "./haveibeenpwned example@example.com\n"
+
+  exit 1
+}
+
+
+function check_pwned {
+
+ local is_pwned
+ is_pwned="$(curl -s -o /dev/null -w "%{http_code}" https://haveibeenpwned.com/api/v2/breachedaccount/"${email}")"
+
+  if [[ "${is_pwned}" == "200" ]]; then
+    return 0
+  
+  elif [[ "${is_pwned}" == "404" ]]; then
+    return 1
+  
+  else
+    echo "UNKNOWN ERROR"
+    return 1
+  fi
+}
+
+
+function get_pwned_info {
+
+  local json
+  local num_breaches
+  local count=0
+  local breach_title
+  
+  json="$(curl -s https://haveibeenpwned.com/api/v2/breachedaccount/"${email}")"
+
+  num_breaches="$(echo "${json}" | python -c 'import json,sys; obj=json.load(sys.stdin); print len(obj);')"
+
+  echo "${RED}PWNED! ${num_breaches} time(s)${RESET}" 
+
+  # shellcheck disable=SC2086
+  while [  $count -lt $num_breaches ]; do
+    breach_title="$(echo "${json}" | python -c "import json,sys; obj=json.load(sys.stdin); print  obj[${count}]['Title'];")"
+    (( count=count+1 ))
+    echo "  ${BOLD}${breach_title}${RESET}"
+  done 
+}
+
+
+function main {
+
+  email=${1:-"usage"}
+
+  if [[ "${email}" == "usage" ]]; then
+    usage
+  fi
+
+  if check_pwned "${email}"; then
+    get_pwned_info "${email}"
+  else
+    echo "Not PWNED!"
+  fi
+}
+
+main "$@"
