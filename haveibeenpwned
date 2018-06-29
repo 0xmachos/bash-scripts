@@ -60,7 +60,11 @@ function get_pwned_info {
 
   num_breaches="$(echo "${json}" | python -c 'import json,sys; obj=json.load(sys.stdin); print len(obj);')"
 
-  echo "${RED}PWNED! ${num_breaches} time(s)${RESET}" 
+  if [[ "${num_breaches}" -gt 1 ]]; then
+    echo "${RED}You've been pwned ${BOLD}${num_breaches}${RESET} ${RED}times!${RESET}"
+  else 
+    echo "${RED}You've been pwned ${num_breaches} time!${RESET}"
+  fi
 
   # shellcheck disable=SC2086
   while [  $count -lt $num_breaches ]; do
@@ -82,7 +86,7 @@ function main {
   if check_pwned "${email}"; then
     get_pwned_info "${email}"
   else
-    echo "Not PWNED!"
+    echo "${GREEN}${BOLD}You've not been pwned!${RESET}"
   fi
 }
 
