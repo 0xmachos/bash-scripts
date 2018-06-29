@@ -17,5 +17,5 @@ Assorted Bash scripts
 - Usgae: `./shebang.sh *` or `./shebang.sh {file 1} {file ...}`
 
 ##### `x86_check`
-- Check `/Applications` for 32-bit Apps
+- Check whole system for 32-bit Apps
 - Usage: `./x86_check`
