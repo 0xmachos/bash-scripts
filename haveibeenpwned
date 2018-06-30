@@ -2,7 +2,7 @@
 # bash-scripts/haveibeenpwnd
 
 # haveibeenpwnd
-# 	Check if your email has been involved in a breach indexed by haveibeenpwned.com
+# 	Check if your email or password has been involved in a breach indexed by haveibeenpwned.com
 
 set -euo pipefail
 # -e exit if any command returns non-zero status code
@@ -23,9 +23,10 @@ readonly GREEN=$(tput setaf 64)
 
 function usage {
 
-  echo -e "\\nCheck if your email has been involved in a breach indexed by haveibeenpwned.com\\n"
+  echo -e "\\nCheck if your email or password has been involved in a breach indexed by haveibeenpwned.com\\n"
   echo "Usage:"
-  echo -e "./haveibeenpwned example@example.com\\n"
+  echo "./haveibeenpwned example@example.com"
+  echo -e "./haveibeenpwned P@ssw0rd1\\n"
 
   exit 1
 }
