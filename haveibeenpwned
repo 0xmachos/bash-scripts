@@ -35,6 +35,7 @@ function usage {
 function check_pwned {
 
   local is_pwned
+  email=$1
 
   is_pwned="$(curl -s -o /dev/null -w "%{http_code}" https://haveibeenpwned.com/api/v2/breachedaccount/"${email}")"
 
