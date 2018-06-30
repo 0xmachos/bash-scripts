@@ -78,18 +78,53 @@ function get_pwned_info {
 }
 
 
+function check_password {
+  
+  local password=$1
+  local hash_prefix
+  local local_hash_suffix
+  local password_list
+  local remote_hash_suffix
+
+  hash_prefix="$(echo -n "${password}" | shasum | cut -b -5 | awk '{print $1}')"
+  local_hash_suffix="$(echo -n "${password}" | shasum | cut -b 6-| awk '{print $1}' | awk '{print toupper($0)}')"
+
+  mapfile -t password_list  < <(curl -s "https://api.pwnedpasswords.com/range/${hash_prefix}" | awk -F ':' '{print $1}')
+  
+  for remote_hash_suffix in "${password_list[@]}"; do
+
+    if [[ "${remote_hash_suffix}" == "${local_hash_suffix}" ]]; then
+      return 0
+    fi
+  done
+
+  return 1
+}
+
+
 function main {
 
-  email=${1:-"usage"}
+  input=${1:-"usage"}
 
-  if [[ "${email}" == "usage" ]]; then
+  if [[ "${input}" == "usage" ]]; then
     usage
   fi
 
-  if check_pwned "${email}"; then
-    get_pwned_info "${email}"
+  if [[ "${input}" =~ "@" ]]; then
+
+    if check_pwned "${input}"; then
+      get_pwned_info "${input}"
+    else
+      echo "${GREEN}${BOLD}You've not been pwned!${RESET}"
+    fi
+
   else
-    echo "${GREEN}${BOLD}You've not been pwned!${RESET}"
+
+    if check_password "${input}"; then
+      echo "${RED}This password has been pwned!${RESET}"
+    else
+      echo "${GREEN}This password has ${BOLD}not${RESET}${GREEN} been pwned!${RESET}"
+    fi
   fi
 }
 
