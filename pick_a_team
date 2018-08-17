@@ -28,7 +28,7 @@ function prem {
   prem_teams="$(curl -s -H "X-Auth-Token:${API_KEY}" -X GET http://api.football-data.org/v2/competitions/2021/teams)"
   prem_team_nums="$(echo "${prem_teams}" | python -c 'import json,sys; obj=json.load(sys.stdin); print len(obj["teams"]);')"
 
-  while [  ${count} -lt ${prem_team_nums} ]; do
+  while [  ${count} -lt "${prem_team_nums}" ]; do
     prem_team="$(echo "${prem_teams}" | python -c "import json,sys; obj=json.load(sys.stdin); print obj['teams'][${count}]['name'];")"
     teams+=("${prem_team}")
     (( count=count+1 ))
@@ -44,7 +44,7 @@ function champ {
   champ_teams="$(curl -s -H "X-Auth-Token:${API_KEY}" -X GET http://api.football-data.org/v2/competitions/2016/teams)"
   champ_team_nums="$(echo "${champ_teams}" | python -c 'import json,sys; obj=json.load(sys.stdin); print len(obj["teams"]);')"
 
-  while [  ${count} -lt ${champ_team_nums} ]; do
+  while [  ${count} -lt "${champ_team_nums}" ]; do
     champ_team="$(echo "${champ_teams}" | python -c "import json,sys; obj=json.load(sys.stdin); print obj['teams'][${count}]['name'];")"
     teams+=("${champ_team}")
     (( count=count+1 ))
@@ -64,10 +64,10 @@ function main {
   champ
 
   index_max="${#teams[@]}"
-  index="$((1 + RANDOM % ${index_max}))"
+  index="$((1 + RANDOM % index_max))"
 
   # echo -e "\nTeam:"
-  echo -e "\n  ${RED}${teams[${index}]}${RESET}\n"
+  echo -e "\\n  ${RED}${teams[${index}]}${RESET}\\n"
 }
 
 main "$@"
