@@ -56,7 +56,7 @@ function add_user {
 }
 
 
-add_ssh_public_key () {
+function add_ssh_public_key {
 
 	# Create /home/${USERNAME}/.ssh
 	if sudo -u "${USERNAME}" mkdir -p "${USER_HOME_DIR}"/.ssh ; then
@@ -76,7 +76,7 @@ add_ssh_public_key () {
 	fi
 }
 
-main () {
+function main {
 
 	USERNAME=${1:-""}
 	SSH_PUBLIC_KEY=${2:-""}
