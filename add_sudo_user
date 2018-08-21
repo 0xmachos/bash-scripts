@@ -19,7 +19,16 @@ PASS="\\033[1;32mPASS\\033[0m"
 # INFO="\\033[1;36mINFO\\033[0m"
 
 
-add_user () {
+function usage {
+	
+	echo -e "\\nCreate a new user, add them to the sudo group and optionally add an SSH key\\n"
+	echo "Usage:"
+	echo "  ./add_sudo_user [username] {ssh public key}"
+  exit 0
+ }
+
+
+function add_user {
 
 	# Check if user already exsists
 	if id -u "${1}" > /dev/null 2>&1 ; then 
@@ -74,9 +83,7 @@ main () {
 	USER_HOME_DIR="/home/${USERNAME}"
 
 	if [[ $# -eq 0 ]] ; then
-		# If no args then print help
-    	echo "Usage: ./add_sudo_user {Username} {SSH Public Key}"
-    	exit 1
+		usage
 	fi
 
 	add_user "${USERNAME}"
