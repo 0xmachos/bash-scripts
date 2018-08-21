@@ -85,7 +85,7 @@ function check_password {
   local password=$1
   local hash_prefix
   local local_hash_suffix
-  local password_list
+  local -a password_list
   local remote_hash_suffix
 
   hash_prefix="$(echo -n "${password}" | shasum | cut -b -5 | awk '{print $1}')"
