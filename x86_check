@@ -39,7 +39,7 @@ function usage {
 
 function get_applications {
 
-  mapfile -t BADAPPS< <(system_profiler SPApplicationsDataType \
+  mapfile -t bad_apps< <(system_profiler SPApplicationsDataType \
                         | grep -E '^    .*:$|64-Bit \(Intel\):|Location' \
                         | grep -A1 ': No' \
                         | grep 'Location' \
@@ -52,7 +52,7 @@ function get_applications {
 function main {
 
   local cmd=${1:-""}
-  BADAPPS=()
+  declare -a bad_apps
 
   if [[ "${cmd}" =~ ^(-h|-H|-help|--help|help)$ ]]; then
     usage
@@ -61,13 +61,13 @@ function main {
 
   get_applications
 
-  if [ ${#BADAPPS[@]} -eq 0 ]; then
+  if [ ${#bad_apps[@]} -eq 0 ]; then
     echo "[✅] No 32-bit applications found"
   else
-    echo "[⚠️ ] Found ${RED}${#BADAPPS[@]}${RESET} 32-bit Applications:"
+    echo "[❌] Found ${RED}${#bad_apps[@]}${RESET} 32-bit Applications:"
     
-    for b in "${BADAPPS[@]}"; do
-      echo "  ${b}"
+    for app in "${bad_apps[@]}"; do
+      echo "  ${app}"
     done
 
   fi
