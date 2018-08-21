@@ -110,9 +110,8 @@ function main {
 
   if [[ "${input}" == "usage" ]]; then
     usage
-  fi
-
-  if [[ "${input}" =~ "@" ]]; then
+  
+  elif [[ "${input}" =~ "@" ]]; then
 
     if check_pwned "${input}"; then
       get_pwned_info "${input}"
