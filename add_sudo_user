@@ -36,7 +36,7 @@ function add_user {
 		return 1
 	fi
 
-	# Add USERNAME as a user
+	# Add username as a user
 	if sudo adduser --quiet --gecos " " "${1}" ; then
 		echo -e "[${PASS}] Sucessfully added user '${1}'"
 	else
@@ -45,7 +45,7 @@ function add_user {
 	fi
 
 
-	# Add USERNAME to the sudo group
+	# Add username to the sudo group
 	# allows them ROOT via sudo command
 	if sudo adduser --quiet "${1}" "sudo" ; then 
 		echo -e "[${PASS}] Sucessfully added user '${1}' to group 'sudo'"
@@ -58,38 +58,37 @@ function add_user {
 
 function add_ssh_public_key {
 
-	# Create /home/${USERNAME}/.ssh
-	if sudo -u "${USERNAME}" mkdir -p "${USER_HOME_DIR}"/.ssh ; then
-		echo -e "[${PASS}] Sucessfully created ${USER_HOME_DIR}/.ssh"
+	# Create /home/${username}/.ssh
+	if sudo -u "${username}" mkdir -p "${$HOME}"/.ssh ; then
+		echo -e "[${PASS}] Sucessfully created ${$HOME}/.ssh"
 	else
-		echo -e "[${FATAL}] Failed to create ${USER_HOME_DIR}/.ssh"
+		echo -e "[${FATAL}] Failed to create ${$HOME}/.ssh"
 		return 1
 	fi
 
 
-	# Append SSH_PUBLIC_KEY to /home/${USERNAME}/.ssh/authorized_keys
-	if sudo -u "${USERNAME}" bash -c  "echo ${1} >> ${USER_HOME_DIR}/.ssh/authorized_keys" ; then
-		echo -e "[${PASS}] Sucessfully added ${1} to ${USER_HOME_DIR}/.ssh/authorized_keys"
+	# Append ssh_public_key to /home/${username}/.ssh/authorized_keys
+	if sudo -u "${username}" bash -c  "echo ${1} >> ${$HOME}/.ssh/authorized_keys" ; then
+		echo -e "[${PASS}] Sucessfully added ${1} to ${$HOME}/.ssh/authorized_keys"
 	else
-		echo -e "[${FATAL}] Failed to add ${1} to ${USER_HOME_DIR}/.ssh/authorized_keys"
+		echo -e "[${FATAL}] Failed to add ${1} to ${$HOME}/.ssh/authorized_keys"
 		return 1
 	fi
 }
 
 function main {
 
-	USERNAME=${1:-""}
-	SSH_PUBLIC_KEY=${2:-""}
-	USER_HOME_DIR="/home/${USERNAME}"
+	username=${1:-""}
+	ssh_public_key=${2:-""}
 
 	if [[ $# -eq 0 ]] ; then
 		usage
 	fi
 
-	add_user "${USERNAME}"
+	add_user "${username}"
 
-	if ! [ -z "${SSH_PUBLIC_KEY}" ]; then
-		add_ssh_public_key "${SSH_PUBLIC_KEY}"
+	if ! [ -z "${ssh_public_key}" ]; then
+		add_ssh_public_key "${ssh_public_key}"
 	else
 		echo -e "[${WARNING}] No SSH Public Key specified"
 	fi
