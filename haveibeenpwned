@@ -56,7 +56,7 @@ function get_pwned_info {
 
   local json
   local num_breaches
-  local count=0
+  local -i count=0
   local breach_title
   local breach_date
   
