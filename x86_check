@@ -16,6 +16,18 @@ IFS=$'\n\t'
 # See: http://redsymbol.net/articles/unofficial-bash-strict-mode/
 
 
+### Define Colours ###
+tput sgr0; 
+# reset colors
+
+readonly RESET=$(tput sgr0)
+readonly BOLD=$(tput bold)
+
+readonly RED=$(tput setaf 1)
+readonly GREEN=$(tput setaf 64)
+### END Colours ###
+
+
 function usage {
 
   echo -e "\\nCheck whole system for 32-bit applications"
@@ -41,10 +53,6 @@ function main {
 
   local cmd=${1:-""}
   BADAPPS=()
-  tput sgr0; 
-  # reset colors
-  RED=$(tput setaf 1)
-  RESET=$(tput sgr0)
 
   if [[ "${cmd}" =~ ^(-h|-H|-help|--help|help)$ ]]; then
     usage
