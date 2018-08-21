@@ -56,7 +56,6 @@ function main {
 
   if [[ "${cmd}" =~ ^(-h|-H|-help|--help|help)$ ]]; then
     usage
-    exit 1
   fi
 
   get_applications
