@@ -33,7 +33,7 @@ function add_user {
 	# Check if user already exsists
 	if id -u "${1}" > /dev/null 2>&1 ; then 
 		echo -e "[${FATAL}] User ${1} already exsits"
-		exit 1
+		return 1
 	fi
 
 	# Add USERNAME as a user
@@ -41,7 +41,7 @@ function add_user {
 		echo -e "[${PASS}] Sucessfully added user '${1}'"
 	else
 		echo -e "[${FATAL}] Failed to add user '${1}'"
-		exit 1
+		return 1
 	fi
 
 
@@ -51,7 +51,7 @@ function add_user {
 		echo -e "[${PASS}] Sucessfully added user '${1}' to group 'sudo'"
 	else
 		echo -e "[${FATAL}] Failed to add user '${1}' to group 'group'"
-		exit 1
+		return 1
 	fi
 }
 
@@ -63,7 +63,7 @@ add_ssh_public_key () {
 		echo -e "[${PASS}] Sucessfully created ${USER_HOME_DIR}/.ssh"
 	else
 		echo -e "[${FATAL}] Failed to create ${USER_HOME_DIR}/.ssh"
-		exit 1
+		return 1
 	fi
 
 
@@ -72,7 +72,7 @@ add_ssh_public_key () {
 		echo -e "[${PASS}] Sucessfully added ${1} to ${USER_HOME_DIR}/.ssh/authorized_keys"
 	else
 		echo -e "[${FATAL}] Failed to add ${1} to ${USER_HOME_DIR}/.ssh/authorized_keys"
-		exit 1
+		return 1
 	fi
 }
 
