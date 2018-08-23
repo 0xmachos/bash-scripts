@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+# bash-scripts/template
+
+# template
+#   Template for starting new bash scripts
+
+set -euo pipefail
+# -e exit if any command returns non-zero status code
+# -u prevent using undefined variables
+# -o pipefail force pipelines to fail on first non-zero status code
+
+IFS=$'\n\t'
+# Set Internal Field Separator to newlines and tabs
+# This makes bash consider newlines and tabs as separating words
+# See: http://redsymbol.net/articles/unofficial-bash-strict-mode/
+
+### Define Colours ###
+tput sgr0; 
+# reset colors
+
+readonly RED="$(tput setaf 1)"
+readonly RESET="$(tput sgr0)"
+readonly BOLD="$(tput bold)"
+
+### END Colours ###
+
+
+function usage {
+  echo -e "\\n  Template for starting new bash scripts\\n"
+
+  exit 0
+}
+
+
+### UTILITY FUNCTIONS ###
+# ctrl_c
+
+
+function ctrl_c {
+  echo -e "\\n[❌] ${USER} has chosen to quit!"
+  exit 1
+}
+
+
+### END UTILITY FUNCTIONS ###
+
+
+function main {
+
+  declare -r arg=${1:-"usage"}
+
+  trap ctrl_c SIGINT
+  # Detect and react to the user hitting CTRL + C
+
+  case "${arg}" in
+
+    usage|help|-h|--help|🤷‍♂️|🤷‍♀️)
+      usage
+      shift
+      ;;
+    
+    *)
+      echo -e "\\n  [❌] ${RED}Invalid argument:${RESET} ${arg}"
+      exit 1  
+      shift
+      ;;
+
+  esac
+}
+
+main "$@"
