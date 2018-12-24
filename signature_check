@@ -26,9 +26,9 @@ readonly GREEN=$(tput setaf 64)
 ### END Colours ###
 
 
-mapfile -t apps< <(system_profiler SPApplicationsDataType \
+apps=($(system_profiler SPApplicationsDataType \
 					| grep "Location: " \
-					| awk -F ': ' '{print $2}')
+					| awk -F ': ' '{print $2}'))
 
 for app in "${apps[@]}"; do
 	if ! pkgutil --check-signature "${app}" >/dev/null; then
