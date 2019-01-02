@@ -3,6 +3,7 @@
 
 # signature_check
 #  Check for applications which are not code signed
+#  Check for apps that are notarized
 
 set -uo pipefail
 # -u prevent using undefined variables
