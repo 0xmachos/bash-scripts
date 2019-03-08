@@ -59,19 +59,19 @@ function add_user {
 function add_ssh_public_key {
 
 	# Create /home/${username}/.ssh
-	if sudo -u "${username}" mkdir -p "${HOME}/.ssh" ; then
-		echo -e "[${PASS}] Sucessfully created ${HOME}/.ssh"
+	if sudo -u "${username}" mkdir -p "${username}/.ssh" ; then
+		echo -e "[${PASS}] Sucessfully created ${username}/.ssh"
 	else
-		echo -e "[${FATAL}] Failed to create ${HOME}/.ssh"
+		echo -e "[${FATAL}] Failed to create ${username}/.ssh"
 		return 1
 	fi
 
 
 	# Append ssh_public_key to /home/${username}/.ssh/authorized_keys
-	if sudo -u "${username}" bash -c  "echo ${1} >> ${HOME}/.ssh/authorized_keys" ; then
-		echo -e "[${PASS}] Sucessfully added ${1} to ${HOME}/.ssh/authorized_keys"
+	if sudo -u "${username}" bash -c  "echo ${1} >> ${username}/.ssh/authorized_keys" ; then
+		echo -e "[${PASS}] Sucessfully added ${1} to ${username}/.ssh/authorized_keys"
 	else
-		echo -e "[${FATAL}] Failed to add ${1} to ${HOME}/.ssh/authorized_keys"
+		echo -e "[${FATAL}] Failed to add ${1} to ${username}/.ssh/authorized_keys"
 		return 1
 	fi
 }
