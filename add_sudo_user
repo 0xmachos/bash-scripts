@@ -34,7 +34,8 @@ function usage {
 	echo -e "\\nCreate a new user, add them to the sudo group and optionally add an SSH key\\n"
 	echo "Usage:"
 	echo "  ./add_sudo_user [username] {ssh public key}"
-  exit 0
+
+	exit 0
  }
 
 
