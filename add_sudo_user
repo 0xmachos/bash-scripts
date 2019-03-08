@@ -12,11 +12,21 @@ set -euo pipefail
 # -u prevent using undefined variables
 # -o pipefail force pipelines to fail on first non-zero status code
 
+### Define Colours ###
+tput sgr0; 
+# reset colors
 
-FATAL="\\033[1;31mFATAL\\033[0m"
-WARNING="\\033[1;33mWARNING\\033[0m"
-PASS="\\033[1;32mPASS\\033[0m"
-# INFO="\\033[1;36mINFO\\033[0m"
+readonly RESET=$(tput sgr0)
+readonly BOLD=$(tput bold)
+
+readonly RED=$(tput setaf 1)
+readonly ORANGE=$(tput setaf 3)
+readonly GREEN=$(tput setaf 64)
+### END Colours ###
+
+FATAL="${RED}FATAL${RESET}"
+WARNING="${ORANGE}WARNING${RESET}"
+PASS="${GREEN}PASS${RESET}"
 
 
 function usage {
