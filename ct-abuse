@@ -4,19 +4,27 @@
 # ct-abuse
 # 	Enumerate HTTPS enabled subdomains via Certificate Transparency 
 
-
 set -euo pipefail
 # -e exit if any command returns non-zero status code
 # -u prevent using undefined variables
 # -o pipefail force pipelines to fail on first non-zero status code
 
+### Define Colours ###
+tput sgr0; 
+# reset colors
 
-# Define output messages
-TARGET="\\033[1;36m[Target]\\033[0m"
-SUBDOMIANS="\\033[1;33m[Subdomains]\\033[0m"
-TOTAL_SUBDOMIANS="\\033[1;32m[Total Subdomains]\\033[0m"
-FATAL="\\033[1;31mFATAL\\033[0m"
-INFO="\\033[1;36mINFO\\033[0m"
+readonly RESET=$(tput sgr0)
+readonly BOLD=$(tput bold)
+
+readonly RED=$(tput setaf 1)
+readonly ORANGE=$(tput setaf 3)
+readonly GREEN=$(tput setaf 64)
+### END Colours ###
+
+### Define output messages ###
+FATAL="${RED}FATAL${RESET}"
+INFO="${ORANGE}INFO${RESET}"
+### END output messages ###
 
 
 function usage {
