@@ -19,13 +19,13 @@ FATAL="\\033[1;31mFATAL\\033[0m"
 INFO="\\033[1;36mINFO\\033[0m"
 
 
-usage () {
+function usage {
 	
 	echo -e "Usage: ./ct-abuse.sh {target_domain}"
 }
 
 
-check_curl () {
+function check_curl () {
 
 	if ! [ -x "$(command -v curl)" ]; then 
 		echo -e "[${FATAL}] curl not installed"
@@ -34,7 +34,8 @@ check_curl () {
 	fi
 }
 
-get_subdomains () {
+
+function get_subdomains () {
 
 	local subdomains=()
 
@@ -56,7 +57,7 @@ get_subdomains () {
 }
 
 
-main () {
+function main {
 
 	local target_domain=${1:-""}
 
