@@ -59,14 +59,11 @@ function get_subdomains () {
 							| sort -u)
 	# grep regex from: https://stackoverflow.com/a/6852427
 
-	echo -e "${TARGET} ${1}"
-	echo -e "${SUBDOMIANS}:"
-
 	for result in "${subdomains[@]}"; do
-		echo "		${result}"
+		echo "${result}"
 	done
 
-	echo -e "${TOTAL_SUBDOMIANS} ${#subdomains[@]}"
+
 }
 
 
