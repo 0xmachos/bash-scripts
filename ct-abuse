@@ -34,15 +34,15 @@ INFO="${ORANGE}INFO${RESET}"
 
 function usage {
 	
-	echo -e "Usage: ./ct-abuse.sh {target_domain}"
+	echo "Usage: ./ct-abuse.sh {target_domain}"
 }
 
 
 function check_curl () {
 
 	if ! [ -x "$(command -v curl)" ]; then 
-		echo -e "[${FATAL}] curl not installed"
-		echo -e "[${INFO}] Linux: apt install curl"
+		echo "[${FATAL}] curl not installed"
+		echo "[${INFO}] Linux: apt install curl"
 		exit 1
 	fi
 }
