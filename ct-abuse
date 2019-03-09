@@ -62,8 +62,6 @@ function get_subdomains () {
 	for result in "${subdomains[@]}"; do
 		echo "${result}"
 	done
-
-
 }
 
 
