@@ -98,7 +98,7 @@ function main {
 
 	add_user "${username}"
 
-	if ! [ -z "${ssh_public_key}" ]; then
+	if [ -n "${ssh_public_key}" ]; then
 		add_ssh_public_key "${ssh_public_key}"
 	else
 		echo -e "[${WARNING}] No SSH Public Key specified"
