@@ -19,7 +19,7 @@ PASS="\\033[1;32mPASS\\033[0m"
 INFO="\\033[1;36mINFO\\033[0m"
 
 
-usage () {
+function usage {
 
 	echo -e "Usage: ./shebang.sh {file1} {file2} {file...}"
 	echo -e "[${INFO}] ./shebang.sh * checks all files in current directory "
@@ -27,7 +27,7 @@ usage () {
 }
 
 
-check_if_bash () {
+function check_if_bash {
 
 	for file_to_check in "$@"; do
 		
@@ -48,7 +48,7 @@ check_if_bash () {
 }
 
 
-check_for_shebang () {
+function check_for_shebang {
 
 
 	for file in "${bash_files[@]}"; do
@@ -64,7 +64,7 @@ check_for_shebang () {
 }
 
 
-main () {
+function main {
 
 	if [[ $# -eq 0 ]] ; then
 		# If no args then print help
