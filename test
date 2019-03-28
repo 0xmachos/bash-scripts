@@ -2,7 +2,9 @@
 # bash-scripts/test
 
 # test
-# 	Find bash scripts then run shellcheck 
+# 	Find bash scripts then run shellcheck
+#   Adapted from jessfraz/dotfiles/bin/test.sh
+#   https://github.com/jessfraz/dotfiles/blob/master/test.sh
 
 
 set -euo pipefail
