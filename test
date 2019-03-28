@@ -16,7 +16,7 @@ INFO="\\033[1;36mINFO\\033[0m"
 PASS="\\033[1;32mPASS\\033[0m"
 
 
-check_shellcheck () {
+function check_shellcheck {
 
 	if ! [ -x "$(command -v shellcheck)" ]; then 
 		echo -e "[${FAIL}] shellcheck not installed"
@@ -27,7 +27,7 @@ check_shellcheck () {
 }
 
 
-lint_shell_files () {
+function lint_shell_files {
 
 	for f in $(find . -type f -not -iwholename '*.git*' \
 				-not -iwholename '*venv*' \
@@ -65,7 +65,7 @@ lint_shell_files () {
 }
 
 
-main () {
+function main {
 
 	ERRORS=()
 
