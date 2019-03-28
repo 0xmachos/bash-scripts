@@ -11,9 +11,21 @@ set -euo pipefail
 # -o pipefail force pipelines to fail on first non-zero status code
 
 
-FAIL="\\033[1;31mFAIL\\033[0m"
-INFO="\\033[1;36mINFO\\033[0m"
-PASS="\\033[1;32mPASS\\033[0m"
+### Define Colours ###
+tput sgr0; 
+# reset colors
+
+readonly RESET=$(tput sgr0)
+readonly BOLD=$(tput bold)
+
+readonly RED=$(tput setaf 1)
+readonly GREEN=$(tput setaf 64)
+readonly BLUE=$(tput setaf 4)
+### END Colours ###
+
+FAIL="${RED}FATAL${RESET}"
+PASS="${GREEN}PASS${RESET}"
+INFO="${BLUE}INFO${RESET}"
 
 
 function check_shellcheck {
