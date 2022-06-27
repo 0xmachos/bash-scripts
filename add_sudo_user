@@ -61,7 +61,7 @@ function add_user {
 	if sudo adduser --quiet "${1}" "sudo" ; then 
 		echo -e "[${PASS}] Sucessfully added user '${1}' to group 'sudo'"
 	else
-		echo -e "[${FATAL}] Failed to add user '${1}' to group 'group'"
+		echo -e "[${FATAL}] Failed to add user '${1}' to group 'sudo'"
 		return 1
 	fi
 }
